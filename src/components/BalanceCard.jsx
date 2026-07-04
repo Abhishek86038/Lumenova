@@ -23,8 +23,7 @@ export const BalanceCard = ({ wallet }) => {
     try {
       const response = await fetch(`https://friendbot.stellar.org/?addr=${publicKey}`);
       if (response.ok) {
-        setFundMessage({ type: 'success', text: 'Account funded successfully! Refreshing balance...' });
-        // Wait a second for the ledger to close and update, then refresh
+        setFundMessage({ type: 'success', text: 'Account funded! Refreshing...' });
         setTimeout(async () => {
           await refreshBalance();
           setFundMessage(null);
@@ -37,7 +36,7 @@ export const BalanceCard = ({ wallet }) => {
       console.error(err);
       setFundMessage({ 
         type: 'error', 
-        text: `Funding failed. Please visit the manual Friendbot link below.` 
+        text: `Funding failed. Please visit manual Friendbot link.` 
       });
     } finally {
       setIsFunding(false);
@@ -47,72 +46,57 @@ export const BalanceCard = ({ wallet }) => {
   const isUnfunded = error === 'Account not funded' || balance === null;
 
   return (
-    <div className="bg-[#121620] border border-slate-800/80 rounded-2xl p-6 glow-emerald backdrop-blur-md">
-      <div className="flex items-center justify-between gap-4 mb-4">
-        <h3 className="text-slate-400 text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
-          <Coins className="w-4 h-4 text-emerald-400" />
+    <div className="glass-card-premium p-6 flex flex-col justify-between h-[200px]">
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="text-slate-400 text-xs font-bold tracking-wider uppercase flex items-center gap-2">
+          <Coins className="w-4 h-4 text-[#00B4D8]" />
           Native Asset Balance
         </h3>
         <button
           onClick={handleRefresh}
           disabled={isRefreshing || isFunding}
-          className="p-2 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/50 text-slate-300 hover:text-white transition duration-200 cursor-pointer disabled:opacity-40"
+          className="p-2 rounded-xl bg-slate-900/60 hover:bg-slate-800/80 border border-slate-800/40 text-slate-300 hover:text-white transition duration-200 cursor-pointer disabled:opacity-40"
           title="Refresh Balance"
         >
-          <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
         </button>
       </div>
 
       {isUnfunded ? (
-        <div className="flex flex-col gap-4">
-          <div className="border border-amber-900/30 bg-amber-950/20 rounded-xl p-4">
-            <div className="flex items-start gap-3">
-              <HelpCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+        <div className="flex flex-col gap-2">
+          <div className="border border-amber-900/20 bg-amber-950/20 rounded-xl p-3 flex flex-col justify-between gap-2">
+            <div className="flex items-start gap-2.5">
+              <HelpCircle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
               <div>
-                <h4 className="font-semibold text-amber-200 text-sm">Account Not Funded</h4>
-                <p className="text-slate-400 text-xs mt-1 leading-relaxed">
-                  This public address is new and doesn't exist on the Stellar Testnet ledger yet. You must initialize it with free Testnet XLM from Friendbot to transact.
+                <p className="text-slate-400 text-[10px] leading-relaxed">
+                  This public address is new and doesn't exist on the ledger. Fund it to transact.
                 </p>
               </div>
             </div>
             
-            {/* Auto-fund Button */}
-            <div className="mt-4 flex flex-wrap gap-3 items-center">
+            <div className="flex items-center gap-2">
               <button
                 onClick={handleFundWithFriendbot}
                 disabled={isFunding}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-medium rounded-xl transition duration-200 shadow-md text-xs cursor-pointer disabled:opacity-50"
+                className="px-2.5 py-1.5 btn-premium-gradient text-white font-bold rounded-lg transition duration-200 text-[10px] cursor-pointer disabled:opacity-50"
               >
-                {isFunding ? (
-                  <>
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                    Funding Account...
-                  </>
-                ) : (
-                  'Fund with Friendbot (10,000 XLM)'
-                )}
+                {isFunding ? 'Funding...' : 'Fund Account (Friendbot)'}
               </button>
               
               <a 
                 href={`https://friendbot.stellar.org/?addr=${publicKey}`}
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300 font-medium py-1 px-2 hover:bg-indigo-950/30 rounded-lg transition"
+                className="inline-flex items-center gap-1 text-[10px] text-[#00B4D8] hover:underline"
               >
-                Manual Friendbot URL
-                <ExternalLink className="w-3 h-3" />
+                Manual URL
+                <ExternalLink className="w-2.5 h-2.5" />
               </a>
             </div>
           </div>
 
           {fundMessage && (
-            <div className={`p-3 rounded-lg text-xs font-medium border ${
-              fundMessage.type === 'success' 
-                ? 'bg-emerald-950/30 border-emerald-900/30 text-emerald-400' 
-                : fundMessage.type === 'error' 
-                ? 'bg-red-950/30 border-red-900/30 text-red-400' 
-                : 'bg-indigo-950/30 border-indigo-900/30 text-indigo-400'
-            }`}>
+            <div className="text-[10px] text-slate-400 truncate">
               {fundMessage.text}
             </div>
           )}
@@ -120,14 +104,18 @@ export const BalanceCard = ({ wallet }) => {
       ) : (
         <div>
           <div className="flex items-baseline gap-2">
-            <span className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
-              {parseFloat(balance).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 7 })}
+            {/* Balance number 48px bold, XLM 20px uppercase letter-spacing 3px cyan color */}
+            <span className="text-[48px] font-extrabold tracking-tight text-white leading-none">
+              {parseFloat(balance).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })}
             </span>
-            <span className="text-xl font-bold text-emerald-400 tracking-wider">XLM</span>
+            <span className="text-[20px] font-extrabold text-[#00B4D8] uppercase tracking-[3px] ml-1">
+              XLM
+            </span>
           </div>
           
-          <div className="flex items-center gap-2 mt-4 text-xs text-slate-500">
-            <Activity className="w-3.5 h-3.5 text-emerald-500/70" />
+          {/* Horizon connection healthy text smaller 12px + pulse animation */}
+          <div className="flex items-center gap-2 mt-4 text-[12px] text-slate-500 animate-pulse-text">
+            <Activity className="w-3.5 h-3.5 text-emerald-500" />
             <span>Horizon connection healthy • Free instant transfers</span>
           </div>
         </div>

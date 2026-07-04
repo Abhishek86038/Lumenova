@@ -2,43 +2,111 @@
 
 @layer base {
   body {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
+    background-color: #0A0E27;
   }
 }
 
-/* Custom background animations & card glow effects */
-.bg-grid-pattern {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+/* Premium Typography classes */
+.font-space {
+  font-family: 'Space Grotesk', sans-serif;
 }
 
-.glow-indigo {
-  box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.3);
+.font-sf {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
 }
 
-.glow-purple {
-  box-shadow: 0 0 40px -10px rgba(168, 85, 247, 0.3);
+/* SVG noise grain overlay */
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
 }
 
-.glow-emerald {
-  box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.3);
+/* Animated dot grid background */
+.bg-dot-grid {
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
 }
 
-.glow-danger {
-  box-shadow: 0 0 40px -10px rgba(239, 68, 68, 0.3);
+/* Premium Frosted Glass Card with Gradient Border */
+.glass-card-premium {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(24px);
+  border-radius: 24px;
+  border: 1px solid transparent;
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  background-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), 
+                    linear-gradient(135deg, rgba(0, 180, 216, 0.4) 0%, rgba(0, 119, 255, 0.4) 100%);
+  box-shadow: inset 0 0 20px rgba(0, 180, 216, 0.12), 0 10px 30px -15px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes float {
+.glass-card-premium:hover {
+  background-image: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), 
+                    linear-gradient(135deg, rgba(0, 180, 216, 0.7) 0%, rgba(0, 119, 255, 0.7) 100%);
+  box-shadow: inset 0 0 25px rgba(0, 180, 216, 0.18), 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+}
+
+/* Confirm Button with Sparkle shimmer animation */
+.btn-premium-gradient {
+  background: linear-gradient(135deg, #00B4D8 0%, #0077FF 100%);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-premium-gradient::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.1) 48%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0.1) 52%,
+    transparent 55%
+  );
+  transform: rotate(-45deg) translate(-70%, -70%);
+  transition: none;
+}
+
+.btn-premium-gradient:hover::after {
+  transform: rotate(-45deg) translate(70%, 70%);
+  transition: transform 1.2s ease-in-out;
+}
+
+/* Pulsing Connected Dot */
+@keyframes pulse-dot {
   0%, 100% {
-    transform: translateY(0px);
+    transform: scale(0.85);
+    opacity: 0.7;
+    filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.6));
   }
   50% {
-    transform: translateY(-10px);
+    transform: scale(1.15);
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.9));
   }
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+.pulsing-dot-green {
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+/* Soft text pulse animation */
+@keyframes pulse-text {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.animate-pulse-text {
+  animation: pulse-text 3s infinite ease-in-out;
 }
