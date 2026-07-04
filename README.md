@@ -64,23 +64,24 @@ npm run build
 
 ## 📸 Screenshots
 
-Please add screenshots of the application in the following slots:
-
 ### 1. Wallet Connected State
-`[SCREENSHOT: wallet connected state]`
+![Wallet Connected State](./image.png)
 *Description: Displays the connected Freighter public key (truncated) and active network indicator.*
 
 ### 2. Balance Displayed
-`[SCREENSHOT: balance displayed]`
+![Balance Displayed](./image-1.png)
 *Description: Shows the live XLM balance loaded from the Testnet Horizon server, complete with the manual and automatic Friendbot options for new wallets.*
 
 ### 3. Successful Transaction
-`[SCREENSHOT: successful testnet transaction with tx hash shown]`
+![Successful Transaction](./image-2.png)
 *Description: Shows the success modal with recipient details, ledger sequence, transaction hash, copy button, and link to Stellar Expert.*
 
 ### 4. Transaction Result & Explorer Verification
-`[SCREENSHOT: transaction result]`
+![Transaction Result](./image-3.png)
 *Description: Explorer detail page on Stellar Expert showing the successful ledger execution of your testnet payment.*
+
+### 5. Explorer Verification Link
+[Verify on Stellar Expert](https://stellar.expert/explorer/testnet/tx/de6721634028f53cff7cba41d4112ca426c7080e9c2c5f97ccb97688b19c9f21)
 
 ---
 
